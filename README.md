@@ -1,5 +1,5 @@
 # teamcity
-Single Project for all Teamcity Docker files (replaces separate repos)
+This project can be used to create a Teamcity cluster using docker/docker-machine/docker-compose
 
 How it works:
 
@@ -9,13 +9,13 @@ How it works:
 
 What to you might do:
 
-* Provision a bear metal box somewhere with SSH access 
+* Provision a bear metal box somewhere with SSH access (or just local)
 * Download the standalone binaries for 
   * docker https://github.com/docker/docker/releases/latest
   * docker-machine https://github.com/docker/machine/releases/latest
   * docker-compose https://github.com/docker/compose/releases/latest
 * Put them in the path and make them executable
-* docker-machine create -d generic --generic-ip-address=${IP} ${fqdn}
+* docker-machine create -d generic --generic-ip-address=${IP} ${fqdn} (or just create a local setup)
 * Clone this project
 * docker-compose pull
 * docker-compose up -d
