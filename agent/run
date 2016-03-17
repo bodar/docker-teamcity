@@ -8,8 +8,11 @@ mkdir -p ${TEAMCITY_AGENT_DATA}
 cd ${TEAMCITY_AGENT_DATA}
 
 if [ ! -f "bin/agent.sh" ]; then
-  echo Waiting for ${TEAMCITY_SERVER_URL} to be ready...
-  wget --tries=60 --retry-connrefused --timeout 1 --wait=10 ${agent_zip_url} 
+  until $(curl --silent --head --fail ${agent_zip_url} > /dev/null ); do
+    echo Waiting for ${agent_zip_url} to be available...
+    sleep 10
+  done
+  wget -T 1 ${agent_zip_url}
   unzip ${agent_zip}
   rm ${agent_zip}
   chmod u+x bin/agent.sh
