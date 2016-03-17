@@ -1,6 +1,6 @@
 # docker run -dt -p 8111:8111 bodar/teamcity-server
 
-FROM bodar/docker-java8
+FROM bodar/teamcity-base
 
 RUN curl -Lk https://download.jetbrains.com/teamcity/TeamCity-9.1.6.tar.gz | \
   tar -C /opt -xz

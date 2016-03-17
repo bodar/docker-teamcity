@@ -1,6 +1,6 @@
 # docker run --restart=on-failure:10 -e TEAMCITY_SERVER_URL=http://teamcity:8111 -dt -p 9090:9090 bodar/teamcity-agent
 
-FROM bodar/docker-java8
+FROM bodar/teamcity-base
 
 ENV TEAMCITY_AGENT_DATA /data/BuildAgent
 VOLUME [$TEAMCITY_AGENT_DATA]
