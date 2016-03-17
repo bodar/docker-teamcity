@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -e
+
+dockerize -wait ${TEAMCITY_SERVER_URL//http/tcp} -timeout 5m echo Server Up
+
+cd ${TEAMCITY_AGENT_DATA}
+
+if [ ! -f "bin/agent.sh" ]; then
+  wget -T 1 ${TEAMCITY_SERVER_URL}/update/buildAgent.zip
+  unzip buildAgent.zip
+  rm buildAgent.zip
+  chmod u+x bin/agent.sh
+fi
+
+if [ ! -f conf/buildAgent.properties ]; then
+  envsubst < /opt/BuildAgent/buildAgent.properties.template > conf/buildAgent.properties
+fi
+
+exec bin/agent.sh run
