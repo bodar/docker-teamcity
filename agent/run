@@ -9,7 +9,7 @@ cd ${TEAMCITY_AGENT_DATA}
 
 if [ ! -f "bin/agent.sh" ]; then
   echo Waiting for ${TEAMCITY_SERVER_URL} to be ready...
-  curl -sS --head --connect-timeout 5 --retry 60 --retry-delay 10 --retry-max-time 600 ${agent_zip_url} 
+  curl -sS --fail --head --connect-timeout 5 --retry 60 --retry-delay 10 --retry-max-time 600 ${agent_zip_url} 
   wget -T 1 ${agent_zip_url}
   unzip ${agent_zip}
   rm ${agent_zip}
