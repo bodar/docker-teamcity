@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
 set -e
 
-dockerize -wait ${TEAMCITY_SERVER_URL//http/tcp} -timeout 5m echo Server Up
+agent_zip=${TEAMCITY_SERVER_URL}/update/buildAgent.zip
+
+until $(curl --output /dev/null --silent --head --fail ${agent_zip}); do
+    echo Waiting for Teamcity Server (${TEAMCITY_SERVER_URL}) to be ready
+    sleep 5
+done
 
 cd ${TEAMCITY_AGENT_DATA}
 
 if [ ! -f "bin/agent.sh" ]; then
-  wget -T 1 ${TEAMCITY_SERVER_URL}/update/buildAgent.zip
+  wget -T 1 
   unzip buildAgent.zip
   rm buildAgent.zip
   chmod u+x bin/agent.sh
