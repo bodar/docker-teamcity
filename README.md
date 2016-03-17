@@ -3,7 +3,7 @@ Single Project for all Teamcity Docker files (replaces separate repos)
 
 How it works:
 
- * Currently the image expects a existing /data/BuildServer on the host machine
+ * Currently the image expects a existing /data/BuildServer on the host machine or it will default to in-memory DB
  * It supports scaling the agents
  * You have to authorise the agents
 
