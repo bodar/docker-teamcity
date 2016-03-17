@@ -23,7 +23,10 @@ What to you might do:
 
 If you decide to kill it make sure you do `docker-compose down` otherwise you will get wierd errors about absolute paths 
 
+Future
 
+ * Support restoring from backup zip via environment variable
+ * Support downloading JDBC drivers via environment variable
 
 
 
