@@ -1,3 +1,3 @@
-# docker-teamcity
+# teamcity
 Single Project for all Teamcity Docker files (replaces separate repos)
 
