@@ -3,13 +3,11 @@ set -e
 
 agent_zip=${TEAMCITY_SERVER_URL}/update/buildAgent.zip
 
-curl --fail --head --connect-timeout 5 --retry 60 --retry-delay 10 --retry-max-time 600 ${agent_zip}
-
 mkdir -p ${TEAMCITY_AGENT_DATA}
 cd ${TEAMCITY_AGENT_DATA}
 
 if [ ! -f "bin/agent.sh" ]; then
-  wget -T 1 
+  curl -o buildAgent.zip  --fail --connect-timeout 5 --retry 60 --retry-delay 10 --retry-max-time 600 ${agent_zip} 
   unzip buildAgent.zip
   rm buildAgent.zip
   chmod u+x bin/agent.sh
