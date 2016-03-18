@@ -1,0 +1,17 @@
+# See documentation at http://confluence.jetbrains.com/display/TCD8/Setting+up+an+External+Database
+
+# Database: PostgreSQL  
+
+connectionUrl=jdbc:postgresql://postgres:5432/${POSTGRES_DB}
+connectionProperties.user=${POSTGRES_USER}
+connectionProperties.password=${POSTGRES_PASSWORD}
+
+# The maximum number of connections TeamCity can open on database server.
+maxConnections=50
+
+# Specifies whether TeamCity should check each jdbc connection before use.
+# It reduces the system performance but avoids cases when the system uses
+# a connection that was closed by the database server due to a time-out or this
+# connection was broken during the previous operation.
+testOnBorrow=false
+

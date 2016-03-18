@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+if [ ! -f ${TEAMCITY_DATA_PATH}/config/database.properties ]; then
+  envsubst < /opt/TeamCity/database.properties.template > ${TEAMCITY_DATA_PATH}/config/database.properties
+fi
+
+exec bin/teamcity-server.sh run
+
