@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-set -eu
+set -eux
 
 restoreBackup() {
-  local filename=${TEMP}/backup.zip
+  local filename=/tmp/backup.zip
 
   if [ "$(ls -A ${TEAMCITY_DATA_PATH})" ]; then
 	echo The data directory ${TEAMCITY_DATA_PATH} must be empty to perform restore
@@ -10,9 +10,9 @@ restoreBackup() {
 
   rm -f ${filename}
   wget -O ${filename} ${TEAMCITY_RESTORE_URL}
-  generateConfig ${TEMP}
+  generateConfig /tmp
   downloadDriver
-  /opt/TeamCity/bin/maintainDB.sh restore -F ${filename} -T ${TEMP}/database.properties
+  /opt/TeamCity/bin/maintainDB.sh restore -F ${filename} -T /tmp/database.properties
 }
 
 downloadDriver() {
@@ -28,14 +28,14 @@ generateConfig() {
   local folder=$1
   local filename=${folder}/database.properties
 
-  if [ ! -f ${fileanme} ]; then
+  if [ ! -f ${filename} ]; then
     mkdir -p ${folder}
     envsubst < /opt/TeamCity/database.properties.template > ${filename}
   fi
 }
 
 
-if [ -n "${TEAMCITY_RESTORE_URL}" ]; then
+if [ ! -z ${TEAMCITY_RESTORE_URL:=} ]; then
   restoreBackup
 fi  
 
