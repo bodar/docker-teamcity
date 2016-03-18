@@ -1,17 +1,46 @@
 #!/usr/bin/env bash
+set -eu
 
-jdbc_folder=${TEAMCITY_DATA_PATH}/lib/jdbc
-jdbc_driver=${jdbc_folder}/postgresql.jar
+restoreBackup() {
+  local filename=${TEMP}/backup.zip
 
-if [ ! -f ${jdbc_driver} ]; then
-  mkdir -p ${jdbc_folder}
-  wget -O ${jdbc_driver} https://jdbc.postgresql.org/download/postgresql-9.4.1208.jar
-fi
+  if [ "$(ls -A ${TEAMCITY_DATA_PATH})" ]; then
+	echo The data directory ${TEAMCITY_DATA_PATH} must be empty to perform restore
+  fi
 
-if [ ! -f ${TEAMCITY_DATA_PATH}/config/database.properties ]; then
-  mkdir -p ${TEAMCITY_DATA_PATH}/config/
-  envsubst < /opt/TeamCity/database.properties.template > ${TEAMCITY_DATA_PATH}/config/database.properties
-fi
+  rm -f ${filename}
+  wget -O ${filename} ${TEAMCITY_RESTORE_URL}
+  generateConfig ${TEMP}
+  downloadDriver
+  /opt/TeamCity/bin/maintainDB.sh restore -F ${filename} -T ${TEMP}/database.properties
+}
+
+downloadDriver() {
+  local jdbc_folder=${TEAMCITY_DATA_PATH}/lib/jdbc
+
+  if [ ! -d ${jdbc_folder} ]; then
+    mkdir -p ${jdbc_folder}
+    wget -P ${jdbc_folder} ${JDBC_DRIVER_URL:=https://jdbc.postgresql.org/download/postgresql-9.4.1208.jar}
+  fi
+}
+
+generateConfig() {
+  local folder=$1
+  local filename=${folder}/database.properties
+
+  if [ ! -f ${fileanme} ]; then
+    mkdir -p ${folder}
+    envsubst < /opt/TeamCity/database.properties.template > ${filename}
+  fi
+}
+
+
+if [ -n "${TEAMCITY_RESTORE_URL}" ]; then
+  restoreBackup
+fi  
+
+downloadDriver
+generateConfig ${TEAMCITY_DATA_PATH}/config
 
 exec /opt/TeamCity/bin/teamcity-server.sh run
 
