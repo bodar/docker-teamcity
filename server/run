@@ -1,9 +1,15 @@
 #!/usr/bin/env bash
 
-if [ ! -f ${TEAMCITY_DATA_PATH}/config/database.properties ]; then
-  mkdir -p ${TEAMCITY_DATA_PATH}/config/
-  envsubst < /opt/TeamCity/database.properties.template > ${TEAMCITY_DATA_PATH}/config/database.properties
+jdbc_folder=${TEAMCITY_DATA_PATH}/lib/jdbc
+jdbc_driver=${jdbc_folder}/postgresql.jar
+
+if [ ! -f ${jdbc_driver} ]; then
+  mkdir -p ${jdbc_folder}
+  wget -O ${jdbc_driver} https://jdbc.postgresql.org/download/postgresql-9.4.1208.jar
 fi
+
+mkdir -p ${TEAMCITY_DATA_PATH}/config/
+envsubst < /opt/TeamCity/database.properties.template > ${TEAMCITY_DATA_PATH}/config/database.properties
 
 exec /opt/TeamCity/bin/teamcity-server.sh run
 

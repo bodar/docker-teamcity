@@ -12,10 +12,6 @@ VOLUME ${TEAMCITY_DATA_PATH}
 
 EXPOSE 8111
 
-RUN mkdir -p ${TEAMCITY_DATA_PATH}/lib/jdbc && \
-  cd ${TEAMCITY_DATA_PATH}/lib/jdbc && \
-  wget --timeout=1 https://jdbc.postgresql.org/download/postgresql-9.4.1208.jar
-
 COPY database.properties.template run /opt/TeamCity/
 
 CMD bash /opt/TeamCity/run
