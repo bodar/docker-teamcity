@@ -14,6 +14,7 @@ services:
       POSTGRES_DB: teamcity
       POSTGRES_USER: teamcity_admin
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      TEAMCITY_RESTORE_URL: ${TEAMCITY_RESTORE_URL}
   agent:
     image: bodar/teamcity-agent
     restart: on-failure:10
