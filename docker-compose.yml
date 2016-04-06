@@ -1,13 +1,22 @@
 version: '2'
 
 services:
+  haproxy:
+    image: haproxy
+    restart: on-failure:10
+    depends_on:
+     - server
+    ports:
+     - "80:80"
+    volumes:
+     - /data/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg:ro
   server:
     image: bodar/teamcity-server
     restart: on-failure:10
     depends_on:
      - postgres
     ports:
-     - "80:8111"
+     - "127.0.0.1:8111:8111"
     volumes:
      - /data/BuildServer:/data/BuildServer
     environment:
