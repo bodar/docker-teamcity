@@ -2,7 +2,7 @@
 
 FROM bodar/teamcity-base
 
-RUN curl -Lk https://download.jetbrains.com/teamcity/TeamCity-9.1.6.tar.gz | \
+RUN curl -Lk https://download.jetbrains.com/teamcity/TeamCity-9.1.7.tar.gz | \
   tar -C /opt -xz
 
 ENV TEAMCITY_SERVER_MEM_OPTS -Xmx1G -Xms1G -XX:MaxMetaspaceSize=256m 
