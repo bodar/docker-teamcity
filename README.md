@@ -17,9 +17,9 @@ What to you might do:
 * Put them in the path and make them executable
 * docker-machine create -d generic --generic-ip-address=${IP} ${fqdn} (or just create a local setup)
 * Clone this project
+* Generate a password for POSTGRESS: echo POSTGRES_PASSWORD=$(date +%s | sha256sum | base64 | head -c 32) > .env
 * docker-compose pull
-* docker-compose up -d
-* docker-compose scale agent 2
+* docker-compose up -d --scale agent=2
 
 If you decide to kill it make sure you do `docker-compose down` otherwise you will get wierd errors about absolute paths 
 

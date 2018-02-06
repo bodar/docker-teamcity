@@ -33,7 +33,7 @@ services:
     environment:
       TEAMCITY_SERVER_URL: http://server:8111
   postgres:
-    image: postgres
+    image: postgres:9.5
     restart: on-failure:10
     volumes:
      - /data/postgresql:/var/lib/postgresql/data
